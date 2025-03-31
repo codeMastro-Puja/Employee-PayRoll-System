@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 abstract class Employee {
     private String name;
@@ -23,21 +24,25 @@ abstract class Employee {
     public String toString() {
         return "Employee [name=" + name + ",id=" + id + ", salary=" + calculateSalary() + "j";
     }
+
+    public String getEmployeeId() {
+        return "employeeId";
+    }
 }
 
 
 class FulltimeEmployee extends Employee{       //inheritence
-        private double monthlySalary;
+    private double monthlySalary;
 
-        public FulltimeEmployee(String name, int id, double monthlySalary){
+    public FulltimeEmployee(String name, int id, double monthlySalary, double bonus){
             super(name,id);
             this.monthlySalary = monthlySalary;
-        }
+    }
 
-        @Override
-        public double calculateSalary() {
+    @Override
+    public double calculateSalary() {
            return monthlySalary;
-        }
+    }
 }
 
 
@@ -53,8 +58,8 @@ class PartTimeEmployee extends Employee{
 
         @Override
         public double calculateSalary() {
-            return hoursWorked * hourlyRate;
-        }
+        return hoursWorked * hourlyRate;
+    }
 }
 
 class PayrollSystem{
@@ -88,19 +93,97 @@ class PayrollSystem{
     }
 }
 
-    public class Main {
-    public static void main(String[] args) {
-        PayrollSystem payrollSystem = new PayrollSystem();
-        FulltimeEmployee emp1 = new FulltimeEmployee("Puja" ,1,70000 );
-        PartTimeEmployee emp2 = new PartTimeEmployee("Alexa",2,40,100);
+//    public class Main {
+//    public static void main(String[] args) {
+//        PayrollSystem payrollSystem = new PayrollSystem();
+//        FulltimeEmployee emp1 = new FulltimeEmployee("Puja" ,1,70000 );
+//        PartTimeEmployee emp2 = new PartTimeEmployee("Alexa",2,40,100);
+//
+//        payrollSystem.addEmployee(emp1);
+//        payrollSystem.addEmployee(emp2);
+//        System.out.println("Initial Employee Details:");
+//        payrollSystem.displayEmployee();
+//        System.out.println("Removing Employees");
+//        payrollSystem.removeEmployee(2);
+//        System.out.println("Remaining Employee Details:");
+//        payrollSystem.displayEmployee();
+//        }
+//    }
 
-        payrollSystem.addEmployee(emp1);
-        payrollSystem.addEmployee(emp2);
-        System.out.println("Initial Employee Details:");
-        payrollSystem.displayEmployee();
-        System.out.println("Removing Employees");
-        payrollSystem.removeEmployee(2);
-        System.out.println("Remaining Employee Details:");
-        payrollSystem.displayEmployee();
+
+
+
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        ArrayList<Employee> employeeList = new ArrayList<>();
+
+        while (true) {
+            System.out.println("\n--- Employee Payroll System ---");
+            System.out.println("1. Add Full-Time Employee");
+            System.out.println("2. Add Part-Time Employee");
+            System.out.println("3. Display All Employees");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = sc.nextInt();
+            sc.nextLine(); // clear newline
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter name: ");
+                    String ftName = sc.nextLine();
+                    System.out.print("Enter employee ID: ");
+                    int ftId = sc.nextInt();
+                    System.out.print("Enter base salary: ");
+                    double baseSalary = sc.nextDouble();
+                    System.out.print("Enter bonus: ");
+                    double bonus = sc.nextDouble();
+                    sc.nextLine(); // clear newline
+
+                    Employee ftEmployee = new FulltimeEmployee(ftName, ftId, baseSalary, bonus);
+                    employeeList.add(ftEmployee);
+                    System.out.println("Full-Time Employee added.\n");
+                    break;
+
+                case 2:
+                    System.out.print("Enter name: ");
+                    String ptName = sc.nextLine();
+                    System.out.print("Enter employee ID: ");
+                    int ptId = sc.nextInt();
+                    System.out.print("Enter hourly rate: ");
+                    double rate = sc.nextDouble();
+                    System.out.print("Enter hours worked: ");
+                    int hours = sc.nextInt();
+                    sc.nextLine(); // clear newline
+
+                    Employee ptEmployee = new PartTimeEmployee(ptName, hours, ptId, rate);
+                    employeeList.add(ptEmployee);
+                    System.out.println("Part-Time Employee added.\n");
+                    break;
+
+                case 3:
+                    if (employeeList.isEmpty()) {
+                        System.out.println("No employees to display.");
+                    } else {
+                        System.out.println("\n--- Employee Details ---");
+                        for (Employee e : employeeList) {
+                            System.out.println("ID: " + e.getEmployeeId());
+                            System.out.println("Name: " + e.getName());
+                            System.out.println("Salary: ₹" + e.calculateSalary());
+                            System.out.println("------------------------");
+                        }
+                    }
+                    break;
+
+                case 4:
+                    System.out.println("Exiting...");
+                    sc.close();
+                    return;
+
+                default:
+                    System.out.println("Invalid choice. Try again.");
+            }
         }
     }
+}
