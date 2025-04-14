@@ -2,8 +2,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 abstract class Employee {
-    private String name;
-    private int id;
+    private final String name;
+    private final int id;
 
     public Employee(String name, int id) {
         this.name = name;
@@ -32,7 +32,7 @@ abstract class Employee {
 
 
 class FulltimeEmployee extends Employee{       //inheritence
-    private double monthlySalary;
+    private final double monthlySalary;
 
     public FulltimeEmployee(String name, int id, double monthlySalary, double bonus){
             super(name,id);
@@ -47,8 +47,8 @@ class FulltimeEmployee extends Employee{       //inheritence
 
 
 class PartTimeEmployee extends Employee{
-    private int hoursWorked;
-    private double hourlyRate;
+    private final int hoursWorked;
+    private final double hourlyRate;
 
     public PartTimeEmployee(String name ,int id, int hoursWorked,double hourlyRate){
         super (name, id);
@@ -63,7 +63,7 @@ class PartTimeEmployee extends Employee{
 }
 
 class PayrollSystem{
-    private ArrayList<Employee> employeeList;
+    private final ArrayList<Employee> employeeList;
 
     public PayrollSystem(){
         employeeList = new ArrayList<>();
